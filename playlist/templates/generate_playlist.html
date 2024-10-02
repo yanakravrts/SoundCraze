@@ -1,0 +1,17 @@
+<!-- your_app_name/templates/generate_playlist.html -->
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Генерація плейлиста</title>
+</head>
+<body>
+    <h1>Генерація плейлиста</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Створити плейлист</button>
+    </form>
+</body>
+</html>
