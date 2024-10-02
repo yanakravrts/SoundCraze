@@ -1,0 +1,14 @@
+<!-- your_app_name/templates/playlist_result.html -->
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Результат плейлиста</title>
+</head>
+<body>
+    <h1>Результат генерації плейлиста</h1>
+    <p>{{ message }}</p>
+    <a href="{% url 'generate_playlist' %}">Створити новий плейлист</a>
+</body>
+</html>
