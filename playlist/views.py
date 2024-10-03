@@ -16,3 +16,7 @@ def generate_playlist(request):
         form = PlaylistForm()
     
     return render(request, 'generate_playlist.html', {'form': form})
+
+
+def about(request):
+    return render(request, 'about.html')

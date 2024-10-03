@@ -8,6 +8,13 @@
 </head>
 <body>
     <h1>Генерація плейлиста</h1>
+
+    <!-- Кнопка "About Us" -->
+    <a href="{% url 'about' %}">
+        <button type="button">About Us</button>
+    </a>
+
+    <!-- Форма для генерації плейлиста -->
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
