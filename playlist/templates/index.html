@@ -1,0 +1,28 @@
+<!-- your_app_name/templates/index.html -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Головна сторінка</title>
+</head>
+<body>
+    <h1>Вітаємо на нашому сайті!</h1>
+
+    <!-- Кнопка "About Us" -->
+    <a href="{% url 'about' %}">
+        <button type="button">About Us</button>
+    </a>
+
+    <!-- Кнопка "Our Playlist" -->
+    <a href="{% url 'playlist' %}">
+        <button type="button">Our Playlist</button>
+    </a>
+
+    <!-- Кнопка "Connect Spotify" -->
+    <a href="{% url 'connect_spotify' %}">
+        <button type="button">Connect Spotify</button>
+    </a>
+
+    <!-- Інший вміст головної сторінки -->
+</body>
+</html>

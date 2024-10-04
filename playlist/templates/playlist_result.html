@@ -9,6 +9,15 @@
 <body>
     <h1>Результат генерації плейлиста</h1>
     <p>{{ message }}</p>
-    <a href="{% url 'generate_playlist' %}">Створити новий плейлист</a>
+
+    <!-- Кнопка "Open in Spotify" -->
+    <a href="{{ spotify_url }}" target="_blank">
+        <button type="button">Open in Spotify</button>
+    </a>
+
+    <!-- Кнопка для створення нового плейлиста -->
+    <a href="{% url 'generate_playlist' %}">
+        <button type="button">Створити новий плейлист</button>
+    </a>
 </body>
 </html>
