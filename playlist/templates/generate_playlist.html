@@ -5,16 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Генерація плейлиста</title>
+    <script>
+        window.onload = function() {
+            // Зберегти стан, щоб при натисканні "Назад" перенаправляти на головну сторінку
+            window.history.pushState(null, null, window.location.href);
+
+            window.onpopstate = function() {
+                // Перенаправити на головну сторінку при натисканні "Назад"
+                window.location.href = '{% url "index" %}';
+            };
+        };
+    </script>
 </head>
 <body>
     <h1>Генерація плейлиста</h1>
-
-    <!-- Кнопка "About Us" -->
-    <a href="{% url 'about' %}">
-        <button type="button">About Us</button>
-    </a>
-
-    <!-- Форма для генерації плейлиста -->
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -22,3 +26,4 @@
     </form>
 </body>
 </html>
+
