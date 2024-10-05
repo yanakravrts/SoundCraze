@@ -5,10 +5,13 @@ def generate_playlist(request):
     if request.method == 'POST':
         form = PlaylistForm(request.POST)
         if form.is_valid():
-            genre = form.cleaned_data['genre']
+            # Отримуємо дані з форми
             song = form.cleaned_data['song']
             artist = form.cleaned_data['artist']
-            message = f"Плейлист успішно згенеровано для жанру '{genre}', пісні '{song}' та автора '{artist}'."
+            number_of_songs = form.cleaned_data['number_of_songs']
+
+            # Формуємо повідомлення
+            message = f"Плейлист успішно згенеровано для пісні '{song}', автора '{artist}' з кількістю пісень {number_of_songs}."
 
             # Поки що без реального Spotify URL
             spotify_url = None
@@ -19,6 +22,7 @@ def generate_playlist(request):
         form = PlaylistForm()
     
     return render(request, 'generate_playlist.html', {'form': form})
+
 
 
 def about(request):
