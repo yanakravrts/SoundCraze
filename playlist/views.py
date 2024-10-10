@@ -4,6 +4,7 @@ from django.conf import settings
 from urllib.parse import urlencode
 import requests
 import logging
+from .spotify_utils import playlist_generate
 
 logger = logging.getLogger(__name__)
 
@@ -19,22 +20,25 @@ def generate_playlist(request):
     if request.method == 'POST':
         form = PlaylistForm(request.POST)
         if form.is_valid():
-            song = form.cleaned_data['song']
             artist = form.cleaned_data['artist']
+            genre = form.cleaned_data['genre']  # Отримуємо жанр з форми
             number_of_songs = form.cleaned_data['number_of_songs']
 
-            # Формуємо повідомлення
-            message = f"Плейлист успішно згенеровано для пісні '{song}', автора '{artist}' з кількістю пісень {number_of_songs}."
-            spotify_url = None  # Поки що без реального Spotify URL
-            
-            # Повертаємо повідомлення
-            return render(request, 'playlist_result.html', {'message': message, 'spotify_url': spotify_url})
+            # Генеруємо плейлист за допомогою функції з spotify_utils
+            playlist = playlist_generate(artist, genre, number_of_songs, spotify_token)
 
-    else:
-        form = PlaylistForm()
+            if playlist:
+                # Формуємо повідомлення про успіх
+                message = f"Плейлист успішно згенеровано для автора '{artist}' з кількістю пісень {number_of_songs}."
+                # Передаємо плейлист на шаблон
+                return render(request, 'playlist_result.html', {'message': message, 'playlist': playlist})
+            else:
+                message = "Не вдалося згенерувати плейлист. Спробуйте ще раз."
+                return render(request, 'playlist_result.html', {'message': message})
 
+    # Якщо метод не POST, повертаємо порожній формуляр
+    form = PlaylistForm()
     return render(request, 'generate_playlist.html', {'form': form})
-
 
 def about(request):
     return render(request, 'about.html')
