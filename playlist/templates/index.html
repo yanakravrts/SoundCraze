@@ -1,28 +1,132 @@
-<!-- your_app_name/templates/index.html -->
+{% load static %}
+
 <!DOCTYPE html>
+
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Головна сторінка</title>
-</head>
-<body>
-    <h1>Вітаємо на нашому сайті!</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
 
-    <!-- Кнопка "About Us" -->
-    <a href="{% url 'about' %}">
-        <button type="button">About Us</button>
-    </a>
+    <title>Sound Craze</title>
 
-    <!-- Кнопка "Our Playlist" -->
-    <a href="{% url 'playlist' %}">
-        <button type="button">Our Playlist</button>
-    </a>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #6e6f6d;
+      }
+      .grid--2--cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        gap: 20px;
+      }
 
-    <!-- Кнопка "Connect Spotify" -->
-    <a href="{% url 'connect_spotify' %}">
-        <button type="button">Connect Spotify</button>
-    </a>
+      .grid--3--cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: center;
+        gap: 40px;
+        margin-top: 68px;
+      }
+
+      .logo img,
+      .disk img {
+        width: 100px;
+        height: auto;
+      }
+
+      .block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .icon {
+        color: black;
+        width: 32px;
+        height: 32px;
+      }
+
+      button {
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        background-color: #6e6f6d;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      .text-button {
+        font-size: 24px;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .new-button {
+        grid-column: 3/4;
+        width: 100%;
+      }
+
+      .start {
+        margin-top: 25px;
+        font-weight: 500;
+        border-radius: 30px 0 0 30px;
+        background-color: #7c7c7c;
+        justify-items: end;
+        align-items: end;
+        font-size: 32px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid--2--cols">
+      <div class="logo">
+        <img src="{% static 'img/logos.png' %}" alt="Logo" />
+      </div>
+      <div class="disk">
+        <img src="{% static 'img/disk.png' %}" alt="Logo" />
+      </div>
+    </div>
+    <div class="grid--3--cols">
+      <!-- Кнопка "Connect Spotify" -->
+
+      <!-- Кнопка "About Us" -->
+      <a href="{% url 'about' %}" class="block">
+        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+        <button type="button" class="text-button">Get our playlist</button>
+      </a>
+
+      <!-- Кнопка "Our Playlist" -->
+      <a href="{% url 'playlist' %}" class="block">
+        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+        <button type="button" class="text-button">Our Playlist</button>
+      </a>
+
+      <!-- Кнопка "Connect Spotify" -->
+      <a href="{% url 'connect_spotify' %}" class="block">
+        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+        <button type="button" class="text-button">Connect to Spotify</button>
+      </a>
+
+      <a href="#" class="new-button">
+        <button type="button" class="start">Start right now</button>
+      </a>
+    </div>
 
     <!-- Інший вміст головної сторінки -->
-</body>
+  </body>
 </html>
