@@ -1,23 +1,19 @@
-<!-- your_app_name/templates/playlist_result.html -->
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Результат плейлиста</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результат генерації плейлиста</title>
 </head>
 <body>
     <h1>Результат генерації плейлиста</h1>
     <p>{{ message }}</p>
-
-    <!-- Кнопка "Open in Spotify" -->
-    <a href="{{ spotify_url }}" target="_blank">
-        <button type="button">Open in Spotify</button>
-    </a>
-
-    <!-- Кнопка для створення нового плейлиста -->
-    <a href="{% url 'generate_playlist' %}">
-        <button type="button">Створити новий плейлист</button>
-    </a>
+    <h2>Ваш плейлист:</h2>
+    <ul>
+        {% for track in playlist %}
+            <li>{{ track.track_name }} - {{ track.artists }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'generate_playlist' %}">Генерувати ще один плейлист</a>
 </body>
 </html>
