@@ -7,5 +7,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('playlist/', views.playlist, name='playlist'),
     path('callback/', views.spotify_callback, name='spotify_callback'),
+    path('author-autocomplete/', views.spotify_author_autocomplete, name='author_autocomplete'),
+    path('genre-autocomplete/', views.spotify_genre_autocomplete, name='genre_autocomplete'),
+    path('add-tracks-to-spotify/', views.add_tracks_to_spotify, name='add_tracks_to_spotify'),
     path('connect_spotify/', views.connect_spotify, name='connect_spotify')
 ]

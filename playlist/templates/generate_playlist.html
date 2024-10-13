@@ -1,29 +1,67 @@
-<!-- your_app_name/templates/generate_playlist.html -->
+<!-- generate_playlist.html -->
+<form method="POST" id="playlist-form">
+    {% csrf_token %}
+    
+    <input type="text" id="author-input" name="artist" placeholder="Введіть автора" required>
+    <ul id="author-list"></ul>
 
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Генерація плейлиста</title>
-    <script>
-        window.onload = function() {
-            // Зберегти стан, щоб при натисканні "Назад" перенаправляти на головну сторінку
-            window.history.pushState(null, null, window.location.href);
+    <input type="text" id="genre-input" name="genre" placeholder="Введіть жанр">
+    <ul id="genre-list"></ul>
 
-            window.onpopstate = function() {
-                // Перенаправити на головну сторінку при натисканні "Назад"
-                window.location.href = '{% url "index" %}';
-            };
-        };
-    </script>
-</head>
-<body>
-    <h1>Генерація плейлиста</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Створити плейлист</button>
-    </form>
-</body>
-</html>
+    <input type="number" name="number_of_songs" min="1" max="50" placeholder="Кількість пісень" required>
 
+    <button type="submit">Згенерувати плейлист</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Автозаповнення авторів
+        $("#author-input").on("input", function () {
+            let query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{% url 'author_autocomplete' %}",
+                    data: { term: query },
+                    success: function (data) {
+                        $("#author-list").empty();
+                        data.forEach(function (author) {
+                            $("#author-list").append(`<li>${author}</li>`);
+                        });
+                    }
+                });
+            } else {
+                $("#author-list").empty();
+            }
+        });
+
+        $(document).on("click", "#author-list li", function () {
+            $("#author-input").val($(this).text());
+            $("#author-list").empty();
+        });
+
+        // Автозаповнення жанрів
+        $("#genre-input").on("input", function () {
+            let query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{% url 'genre_autocomplete' %}",
+                    data: { term: query },
+                    success: function (data) {
+                        $("#genre-list").empty();
+                        data.forEach(function (genre) {
+                            $("#genre-list").append(`<li>${genre}</li>`);
+                        });
+                    }
+                });
+            } else {
+                $("#genre-list").empty();
+            }
+        });
+
+        $(document).on("click", "#genre-list li", function () {
+            $("#genre-input").val($(this).text());
+            $("#genre-list").empty();
+        });
+    });
+</script>

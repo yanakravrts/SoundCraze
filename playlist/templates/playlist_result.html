@@ -14,6 +14,15 @@
             <li>{{ track.track_name }} - {{ track.artists }}</li>
         {% endfor %}
     </ul>
+
+    <!-- Додаємо форму для відправки треків до Spotify -->
+    <form method="POST" action="{% url 'add_tracks_to_spotify' %}">
+        {% csrf_token %}
+        <input type="hidden" name="track_ids" value="{{ track_ids|join:', ' }}">
+        <button type="submit">Додати в Spotify</button>
+    </form>
+
     <a href="{% url 'generate_playlist' %}">Генерувати ще один плейлист</a>
+
 </body>
 </html>
