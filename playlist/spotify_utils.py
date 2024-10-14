@@ -23,8 +23,12 @@ def get_recommendations(artist_id, genre, limit, access_token):
         tracks = data['tracks']
         playlist = [
             {
-                "track_name": track['name'],
-                "artists": ', '.join([artist['name'] for artist in track['artists']])
+                #"track_name": track['name'],
+                #"artists": ', '.join([artist['name'] for artist in track['artists']]),
+                #"spotify_url": track['external_urls']['spotify'],
+                "track_id": track['id'],
+                "embed_url": f'https://open.spotify.com/embed/track/{track["id"]}'
+                
             }
             for track in tracks
         ]
