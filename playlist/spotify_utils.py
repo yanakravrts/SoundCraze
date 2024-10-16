@@ -34,6 +34,7 @@ def get_recommendations(artist_id, genre,mood, limit, access_token):
     if response.status_code == 200:
         data = response.json()
         tracks = data['tracks']
+        tracks.sort(key=lambda track: track['name'].lower())
         playlist = [
             {
                 "track_name": track['name'],
@@ -50,7 +51,9 @@ def get_recommendations(artist_id, genre,mood, limit, access_token):
         print(f"Error: {response.status_code}")
         return None
 
+
 def playlist_generate(artist_name, genre, mood, limit, access_token):
+
     artist_id = None
 
     if artist_name:
