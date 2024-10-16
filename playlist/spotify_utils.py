@@ -51,7 +51,9 @@ def get_recommendations(artist_id, genre,mood, limit, access_token):
         print(f"Error: {response.status_code}")
         return None
 
-def playlist_generate(artist_name, genre,mood, limit, access_token):
+
+def playlist_generate(artist_name, genre, mood, limit, access_token):
+
     artist_id = None
 
     if artist_name:
