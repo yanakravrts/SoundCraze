@@ -23,9 +23,10 @@ def generate_playlist(request):
         if form.is_valid():
             artist = form.cleaned_data['artist']
             genre = form.cleaned_data['genre']
+            mood = form.cleaned_data['mood']
             number_of_songs = form.cleaned_data['number_of_songs']
 
-            playlist = playlist_generate(artist, genre, number_of_songs, spotify_token)
+            playlist = playlist_generate(artist, genre, mood, number_of_songs, spotify_token)
 
             if playlist:
                 logger.info(f"Згенерований плейлист: {playlist}")  # Логування плейлиста
@@ -92,7 +93,10 @@ def spotify_author_autocomplete(request):
         term = request.GET.get('term')
         access_token = request.session.get('spotify_access_token')
 
+        logger.info(f"Searching for term: {term} with token: {access_token}")
+
         if not access_token:
+            logger.warning("Access token not found.")
             return JsonResponse([], safe=False)
 
         # Виконання запиту до Spotify API
@@ -102,11 +106,17 @@ def spotify_author_autocomplete(request):
         }
 
         response = requests.get(url, headers=headers)
+        logger.info(f"Response status code: {response.status_code}")
+
         if response.status_code == 200:
             data = response.json()
             artists = [artist['name'] for artist in data['artists']['items']]
+            logger.info(f"Found artists: {artists}")
             return JsonResponse(artists, safe=False)
-    
+
+        else:
+            logger.error(f"Error fetching artists: {response.status_code} - {response.text}")
+
     return JsonResponse([], safe=False)
 
 

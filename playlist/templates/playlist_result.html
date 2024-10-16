@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат генерації плейлиста</title>
+    <style>
+        ul {
+            list-style-type: none; /* Прибираємо крапки з ненумерованого списку */
+            padding: 0; /* Прибираємо відступи */
+        }
+
+        li {
+            margin-bottom: 10px; /* Додаємо відступ між плеєрами, якщо потрібно */
+        }
+    </style>
 </head>
 <body>
     <h1>Результат генерації плейлиста</h1>
@@ -11,7 +21,9 @@
     <h2>Ваш плейлист:</h2>
     <ul>
         {% for track in playlist %}
-            <li>{{ track.track_name }} - {{ track.artists }}</li>
+            <li>
+                <iframe src="{{ track.embed_url }}" width="300" height="80" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+            </li>
         {% endfor %}
     </ul>
 
@@ -23,6 +35,5 @@
     </form>
 
     <a href="{% url 'generate_playlist' %}">Генерувати ще один плейлист</a>
-
 </body>
 </html>

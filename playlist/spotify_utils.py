@@ -2,7 +2,7 @@ import requests
 from .token_get import access_token
 from .artist_find import search_artist
 
-def get_recommendations(artist_id, genre, limit, access_token):
+def get_recommendations(artist_id, genre,mood, limit, access_token):
     rec_url = "https://api.spotify.com/v1/recommendations"
     headers = {'Authorization': f'Bearer {access_token}'}
 
@@ -15,6 +15,19 @@ def get_recommendations(artist_id, genre, limit, access_token):
         params["seed_artists"] = artist_id
     if genre:
         params["seed_genres"] = genre
+    if mood == 'happy':
+        params["target_valence"] = 0.9  
+        params["target_energy"] = 0.8   
+    elif mood == 'sad':
+        params["target_valence"] = 0.2  
+        params["target_energy"] = 0.3   
+    elif mood == 'chill':
+        params["target_valence"] = 0.6  
+        params["target_energy"] = 0.4   
+    else:
+        params["target_valence"] = 0.5
+        params["target_energy"] = 0.5   
+
 
     response = requests.get(rec_url, headers=headers, params=params)
 
@@ -37,14 +50,14 @@ def get_recommendations(artist_id, genre, limit, access_token):
         print(f"Error: {response.status_code}")
         return None
 
-def playlist_generate(artist_name, genre, limit, access_token):
+def playlist_generate(artist_name, genre, mood, limit, access_token):
     artist_id = None
 
     if artist_name:
         artist_id = search_artist(artist_name, access_token)
 
     if artist_id or genre:
-        playlist = get_recommendations(artist_id, genre, limit, access_token)
+        playlist = get_recommendations(artist_id, genre,mood, limit, access_token)
         if playlist:
             return playlist
         else:
