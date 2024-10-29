@@ -1,18 +1,31 @@
-<!-- your_app_name/templates/playlist.html -->
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Наші плейлисти</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Плейлисти Spotify</title>
 </head>
 <body>
-    <h1>Наші плейлисти</h1>
-    
-    <ul>
-        <li><strong>Плейлист Володі</strong>: <a href="#">Посилання на плейлист</a></li>
-        <li><strong>Плейлист Яни</strong>: <a href="#">Посилання на плейлист</a></li>
-        <li><strong>Плейлист Оленки</strong>: <a href="#">Посилання на плейлист</a></li>
-        <li><strong>Плейлист Антона</strong>: <a href="#">Посилання на плейлист</a></li>
-    </ul>
+
+<h1>Плейлисти Spotify</h1>
+
+<div>
+    <p>Кількість плейлистів: {{ playlist_covers|length }}</p>
+
+    {% if playlist_covers %}
+        {% for playlist in playlist_covers %}
+            <div>
+                <a href="{{ playlist.url }}" target="_blank">
+                    <img src="{{ playlist.cover_url }}" alt="Обкладинка плейлиста" width="200">
+                    <p>Відкрити плейлист</p>
+                </a>
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Немає доступних плейлистів.</p>
+    {% endif %}
+</div>
+
 </body>
 </html>

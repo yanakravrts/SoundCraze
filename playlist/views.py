@@ -300,8 +300,10 @@ def display_playlists(request):
             playlist_covers.append({'id': playlist_id, 'cover_url': cover_url, 'url': playlist_url})
         else:
             logger.error(f"Error retrieving playlist data: {response.status_code}, {response.text}")
+    
+    logger.info(f"Завантажені плейлисти: {playlist_covers}")
 
-    return render(request, 'playlists.html', {'playlist_covers': playlist_covers})
+    return render(request, 'playlist.html', {'playlist_covers': playlist_covers})
 
 # плеєр наших плейлистів 
 def display_playlist(request, playlist_id):
@@ -311,4 +313,4 @@ def display_playlist(request, playlist_id):
         return redirect('index')
     embed_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
 
-    return render(request, 'playlist_player.html', {'embed_url': embed_url})
+    return render(request, 'playlist.html', {'embed_url': embed_url})
