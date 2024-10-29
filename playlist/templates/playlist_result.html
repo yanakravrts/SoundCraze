@@ -1,23 +1,189 @@
-<!-- your_app_name/templates/playlist_result.html -->
-
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Результат плейлиста</title>
-</head>
-<body>
-    <h1>Результат генерації плейлиста</h1>
-    <p>{{ message }}</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <title>Результат генерації плейлиста</title>
+    <style>
+      .grid--3--cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.1fr;
+        align-items: center;
+        justify-items: center;
+        gap: 10px;
+      }
 
-    <!-- Кнопка "Open in Spotify" -->
-    <a href="{{ spotify_url }}" target="_blank">
-        <button type="button">Open in Spotify</button>
-    </a>
+      .text-button {
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        background-color: #6e6f6d;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+      }
 
-    <!-- Кнопка для створення нового плейлиста -->
-    <a href="{% url 'generate_playlist' %}">
-        <button type="button">Створити новий плейлист</button>
-    </a>
-</body>
+      .block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-self: center;
+      }
+      .container2 {
+        width: 1300px;
+        margin: 20px auto;
+      }
+
+      .icon {
+        color: black;
+        width: 36px;
+        height: 36px;
+      }
+      .red {
+        color: #ff4c47f2;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #6e6f6d;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 64px;
+      }
+
+      .playlist,
+      .about {
+        font-size: 20px;
+        margin: 12px 16px;
+        font-weight: bold;
+      }
+
+      /* .container {
+        background-color: #6e6f6d;
+        border-radius: 32px 32px 0 0;
+        margin: 0 auto;
+        padding: 48px;
+      } */
+
+      .huina {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr 1.5fr;
+        align-items: start;
+        justify-items: start;
+        gap: 10px;
+        margin-top: 24px;
+        margin-bottom: 16px;
+      }
+
+      .goto {
+        justify-self: end;
+        color: white;
+        font-weight: 500;
+        font-size: 32px;
+        padding: 12px 36px;
+      }
+
+      button {
+        border: none;
+        background-color: rgb(110, 111, 109, 45%);
+        border-radius: 24px;
+      }
+
+      .yourplay {
+        padding: 12px 24px;
+      }
+
+      .smaller-container {
+        margin: 0 auto;
+        width: 78%;
+        border-radius: 38px;
+        background-color: #ff4c47f2;
+        padding: 24px 48px;
+      }
+
+      .yourplay {
+        color: white;
+        font-weight: 500;
+        font-size: 32px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="playlist">Our playlist</div>
+      <div class="about">About us</div>
+    </div>
+    <div class="container">
+      <div class="smaller-container">
+        <div class="huina">
+          <img src="#" />
+          <p class="yourplay">Your generated playlist</p>
+          <button type="submit" class="goto">Go to Spotify</button>
+        </div>
+        <ul>
+          {% for track in playlist %}
+          <li class="music">
+            <iframe
+              src="{{ track.embed_url }}"
+              width="1000"
+              height="80"
+              frameborder="0"
+              allow="encrypted-media"
+              allowfullscreen
+            ></iframe>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Додаємо форму для відправки треків до Spotify -->
+    <form method="POST" action="{% url 'add_tracks_to_spotify' %}">
+      {% csrf_token %}
+      <input type="hidden" name="track_ids" value="{{ track_ids|join:', ' }}" />
+    </form>
+
+    <div class="grid--3--cols container2">
+      <div class="block">
+        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+        <div class="text-button">Connect to Spotify</div>
+      </div>
+
+      <div class="block">
+        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+        <div class="text-button">Choose generation items</div>
+      </div>
+
+      <div class="block">
+        <ion-icon name="musical-note-outline" class="icon red"></ion-icon>
+        <div class="text-button">Get your playlist</div>
+      </div>
+    </div>
+    <a href="{% url 'generate_playlist' %}">Генерувати ще один плейлист</a>
+  </body>
 </html>

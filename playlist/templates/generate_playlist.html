@@ -1,29 +1,281 @@
-<!-- your_app_name/templates/generate_playlist.html -->
+{% load static %}  <!-- Додайте цей рядок на початку шаблону -->
 
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Генерація плейлиста</title>
-    <script>
-        window.onload = function() {
-            // Зберегти стан, щоб при натисканні "Назад" перенаправляти на головну сторінку
-            window.history.pushState(null, null, window.location.href);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            window.onpopstate = function() {
-                // Перенаправити на головну сторінку при натисканні "Назад"
-                window.location.href = '{% url "index" %}';
-            };
-        };
-    </script>
-</head>
-<body>
-    <h1>Генерація плейлиста</h1>
-    <form method="post">
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+        type="module"
+        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+        ></script>
+        <script
+        nomodule
+        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+        ></script>
+        <title>Генерація плейлиста</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                background-color: #ff4c47f2;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .header {
+                display: flex;
+                justify-content: flex-end;
+                background-color: #ff4c47f2;
+            }
+
+            .playlist,
+            .about {
+                font-size: 20px;
+                margin: 12px 16px;
+                font-weight: bold;
+            }
+
+            a{
+                border: none;
+                background-color: none;
+            }
+
+            button{
+                border: none;
+                font-size: 20px;
+                margin: 0px 16px;
+                font-weight: bold;
+                background-color: #ff4c47f2;
+                cursor: pointer;
+            }
+            .container{
+                background-color: #6e6f6d;
+                border-radius: 22px;
+                padding-top: 20px;
+                align-items: center;
+            }
+
+            .grid--3--cols {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1.1fr;
+                align-items: center;
+                justify-items: center;
+                gap: 10px;
+                margin-top: 48px;
+            }
+
+            .block {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-self: center;
+            }
+            
+            .icon {
+                color: black;
+                width: 36px;
+                height: 36px;
+            }
+
+            .red {
+                color: #ff4c47f2;
+            }
+            
+            .text-button {
+                font-size: 24px;
+                font-weight: bold;
+                color: black;
+                background-color: #6e6f6d;
+                padding: 10px 20px;
+                border: none;
+                cursor: pointer;
+            }
+
+            input[type="text"].option,
+            input[type="number"].option,
+            select.option {
+                background-color: #9b9b9a !important; 
+                color: #000 !important;               
+                width: 30%;
+                border: none;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                font-size: 16px;
+                text-align: center;
+                -webkit-appearance: none; /* усунення стилів браузера */
+                -moz-appearance: none;
+                appearance: none;
+            }
+
+            ::placeholder{
+                color: #000
+            }
+
+            .smaller-container{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .image img {
+                width: 500px;
+                height: 246px;
+            }
+
+
+            .heze{
+                background-color: #9b9b9a !important; 
+                color: #000 !important;     
+                border: none;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                font-size: 16px;
+                text-align: center;
+                width: 200px;
+                width: 30%;
+            }
+        </style>
+    </head>
+    <body>
+        <form method="POST" id="playlist-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Створити плейлист</button>
-    </form>
-</body>
-</html>
 
+        <div class="header">
+            <div class="playlist">
+                <a href="{% url 'playlist' %}" class="new-button">
+                    <button type="button" class="start">Our playlist</button>
+                </a>
+            </div>
+            <div class="playlist">
+                <a href="{% url 'about' %}" class="new-button">
+                    <button type="button" class="start">About us</button>
+                </a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="smaller-container">
+                <div class="image">
+                    <img src="{% static 'img/image 8.png' %}" alt="Logo" />
+                </div>
+                <input
+                    class="option"
+                    type="text"
+                    id="author-input"
+                    name="artist"
+                    placeholder="Author"
+                    required
+                />
+                <ul id="author-list"></ul>
+
+                <input
+                    class="option"
+                    type="text"
+                    id="genre-input"
+                    name="genre"
+                    placeholder="Song genre"
+                />
+                <ul id="genre-list"></ul>
+
+                    <select class="heze" name="mood" id="mood-select" required>
+                        <option value="">Mood</option>
+                        <option value="happy">Happy</option>
+                        <option value="sad">Sad</option>
+                        <option value="chill">Chill</option>
+                        <option value="other">Other</option>
+                    </select>
+                <input
+                    class="option"
+                    type="number"
+                    name="number_of_songs"
+                    min="1"
+                    max="50"
+                    placeholder="Number of songs"
+                    required
+                />
+
+                <button type="submit">Згенерувати плейлист</button>
+                </form>
+            </div>
+            <div class="grid--3--cols container2">
+                <div class="block">
+                  <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+                  <div class="text-button">Connect to Spotify</div>
+                </div>
+          
+                <div class="block">
+                  <ion-icon name="musical-note-outline" class="icon red"></ion-icon>
+                  <div class="text-button">Choose generation items</div>
+                </div>
+          
+                <div class="block">
+                  <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+                  <div class="text-button">Get your playlist</div>
+                </div>
+              </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function () {
+            // Автозаповнення авторів
+            $("#author-input").on("input", function () {
+            let query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                url: "{% url 'author_autocomplete' %}",
+                data: { term: query },
+                success: function (data) {
+                    $("#author-list").empty();
+                    data.forEach(function (author) {
+                    $("#author-list").append(`<li>${author}</li>`);
+                    });
+                },
+                });
+            } else {
+                $("#author-list").empty();
+            }
+            });
+
+            $(document).on("click", "#author-list li", function () {
+            $("#author-input").val($(this).text());
+            $("#author-list").empty();
+            });
+
+            // Автозаповнення жанрів
+            $("#genre-input").on("input", function () {
+            let query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                url: "{% url 'genre_autocomplete' %}",
+                data: { term: query },
+                success: function (data) {
+                    $("#genre-list").empty();
+                    data.forEach(function (genre) {
+                    $("#genre-list").append(`<li>${genre}</li>`);
+                    });
+                },
+                });
+            } else {
+                $("#genre-list").empty();
+            }
+            });
+
+            $(document).on("click", "#genre-list li", function () {
+            $("#genre-input").val($(this).text());
+            $("#genre-list").empty();
+            });
+        });
+        </script>
+    </body>
+  </head>
+</html>
