@@ -115,6 +115,8 @@
                 -webkit-appearance: none; /* усунення стилів браузера */
                 -moz-appearance: none;
                 appearance: none;
+                border: none;
+                outline: none;
             }
 
             ::placeholder{
@@ -122,6 +124,7 @@
             }
 
             .smaller-container{
+                position: relative;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -144,6 +147,11 @@
                 text-align: center;
                 width: 200px;
                 width: 30%;
+            }
+            
+            .generate{
+                padding: 16px 24px;
+                border-radius: 16px;
             }
         </style>
     </head>
@@ -187,13 +195,6 @@
                 />
                 <ul id="genre-list"></ul>
 
-                    <select class="heze" name="mood" id="mood-select" required>
-                        <option value="">Mood</option>
-                        <option value="happy">Happy</option>
-                        <option value="sad">Sad</option>
-                        <option value="chill">Chill</option>
-                        <option value="other">Other</option>
-                    </select>
                 <input
                     class="option"
                     type="number"
@@ -203,9 +204,19 @@
                     placeholder="Number of songs"
                     required
                 />
+                    <select class="heze" name="mood" id="mood-select" required>
+                        <option value="">Mood</option>
+                        <option value="happy">Happy</option>
+                        <option value="sad">Sad</option>
+                        <option value="chill">Chill</option>
+                        <option value="other">Other</option>
+                    </select>
 
-                <button type="submit">Згенерувати плейлист</button>
+                
                 </form>
+            </div>
+            <div class="button">
+                <button class="generate" type="submit">Generate</button>
             </div>
             <div class="grid--3--cols container2">
                 <div class="block">
