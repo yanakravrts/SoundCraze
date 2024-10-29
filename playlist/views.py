@@ -7,6 +7,7 @@ import requests
 import logging
 from .spotify_utils import playlist_generate
 from django.views.decorators.http import require_POST
+from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 
@@ -267,3 +268,47 @@ def add_tracks_to_spotify(request):
     else:
         logger.error(f"Помилка при створенні плейлиста: {response.status_code}, {response.text}")
         return redirect('generate_playlist')
+
+
+#вивід плейлистів --сторінка: наші плейлисти---
+def display_playlists(request):
+    spotify_token = request.session.get('spotify_access_token')
+
+    if not spotify_token:
+        return redirect('index')
+
+    playlist_urls = [
+        "https://open.spotify.com/playlist/2U2RN4a0aaDLd36jiSFOL8?si=dbb3b0d5b3f04241",
+        "https://open.spotify.com/playlist/00qOalVs4UPqN8oofW9rYg?si=7c3e789e56a249c6",
+        "https://open.spotify.com/playlist/1kS0gM6RjLrx3MfAGbVJ43?si=c708a56b2efb40fa",
+        "https://open.spotify.com/playlist/03dUQA1UEY2nudUudLrf5E?si=244bd0e3d9364438",
+    ]
+
+    playlist_covers = []
+
+    for playlist_url in playlist_urls:
+        path = urlparse(playlist_url).path
+        playlist_id = path.split('/')[-1]
+
+        url = f"https://api.spotify.com/v1/playlists/{playlist_id}"
+        headers = {'Authorization': f'Bearer {spotify_token}'}
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            playlist_data = response.json()
+            cover_url = playlist_data['images'][0]['url'] if playlist_data['images'] else None
+            playlist_covers.append({'id': playlist_id, 'cover_url': cover_url, 'url': playlist_url})
+        else:
+            logger.error(f"Error retrieving playlist data: {response.status_code}, {response.text}")
+
+    return render(request, 'playlists.html', {'playlist_covers': playlist_covers})
+
+# плеєр наших плейлистів 
+def display_playlist(request, playlist_id):
+    spotify_token = request.session.get('spotify_access_token')
+
+    if not spotify_token:
+        return redirect('index')
+    embed_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
+
+    return render(request, 'playlist_player.html', {'embed_url': embed_url})
