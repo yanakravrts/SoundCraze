@@ -203,7 +203,7 @@ def spotify_callback(request):
     else:
         return redirect('index')  # Якщо помилка — перенаправляємо назад
     
-
+    
 @require_POST
 def add_tracks_to_spotify(request):
     # Отримуємо токен з сесії
