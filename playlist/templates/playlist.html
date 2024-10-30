@@ -100,7 +100,7 @@
         position: absolute;
         width: 500px;
         height: 100px;
-        top: 72%;
+        top: 77%;
         left: 50%;
         transform: translate(-50%, 0);
       }
@@ -131,21 +131,24 @@
       <div class="container">
         {% if playlist_covers %} {% for playlist in playlist_covers %}
         <div class="album">
-          <a href="{{ playlist.url }}" target="_blank">
-            <img src="{{ playlist.cover_url }}" alt="Обкладинка плейлиста" />
-            {% if forloop.counter == 1 %}
-            <p class="album-name">Olena</p>
-            {% elif forloop.counter == 2 %}
-            <p class="album-name">Yana</p>
-            {% elif forloop.counter == 3 %}
-            <p class="album-name">Volodia</p>
-            {% elif forloop.counter == 4 %}
-            <p class="album-name">Anton</p>
-            {% else %}
-            <p>Невідомий</p>
-            {% endif %}
-          </a>
-        </div>
+            <a href="{% url 'display_playlist' playlist.id %}">
+                <img src="{{ playlist.cover_url }}" alt="Обкладинка плейлиста" />
+                {% if forloop.counter == 1 %}
+                  <p class="album-name">Olena</p>
+                {% elif forloop.counter == 2 %}
+                  <p class="album-name">Yana</p>
+                {% elif forloop.counter == 3 %}
+                  <p class="album-name">Volodia</p>
+                {% elif forloop.counter == 4 %}
+                  <p class="album-name">Anton</p>
+                {% else %}
+                  <p>Невідомий</p>
+                {% endif %}
+              </a>
+              
+              
+              
+          </div>
         {% endfor %} {% else %}
         <p>Немає доступних плейлистів.</p>
         {% endif %}

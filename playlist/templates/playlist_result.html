@@ -199,57 +199,59 @@
   </head>
   <body>
     <div class="header">
-      <div class="playlist">
-        <a href="{% url 'playlist' %}" class="new-button">Our playlist</a>
-      </div>
-      <div class="playlist">
-        <a href="{% url 'about' %}" class="new-button about">About us</a>
-      </div>
-    </div>
-    <div class="container">
-      <div class="smaller-container">
-        <div class="huina">
-          <p class="yourplay">Your generated playlist</p>
-          <button type="submit" class="goto">Go to Spotify</button>
+        <div class="playlist">
+            <a href="{% url 'playlist' %}" class="new-button">Our playlist</a>
         </div>
-        <ul class="scrollable-list">
-          {% for track in playlist %}
-          <li class="music">
-            <iframe
-              src="{{ track.embed_url }}"
-              width="1000"
-              height="80"
-              frameborder="0"
-              allow="encrypted-media"
-              allowfullscreen
-            ></iframe>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+        <div class="playlist">
+            <a href="{% url 'about' %}" class="new-button about">About us</a>
+        </div>
     </div>
-
-    <!-- Додаємо форму для відправки треків до Spotify -->
-    <form method="POST" action="{% url 'add_tracks_to_spotify' %}">
-      {% csrf_token %}
-      <input type="hidden" name="track_ids" value="{{ track_ids|join:', ' }}" />
-    </form>
+    
+    <div class="container">
+        <div class="smaller-container">
+            <div class="huina">
+                <p class="yourplay">Your generated playlist</p>
+                
+                <!-- Оновлена форма для відправки запиту -->
+                <form method="POST" action="{% url 'add_tracks_to_spotify' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="track_ids" value="{{ track_ids|join:', ' }}" />
+                    <button type="submit" class="goto">Go to Spotify</button>
+                </form>
+            </div>
+            
+            <ul class="scrollable-list">
+                {% for track in playlist %}
+                <li class="music">
+                    <iframe
+                        src="{{ track.embed_url }}"
+                        width="1000"
+                        height="80"
+                        frameborder="0"
+                        allow="encrypted-media"
+                        allowfullscreen
+                    ></iframe>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
     <div class="grid--3--cols container2">
-      <div class="block">
-        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
-        <div class="text-button">Connect to Spotify</div>
-      </div>
+        <div class="block">
+            <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+            <div class="text-button">Connect to Spotify</div>
+        </div>
 
-      <div class="block">
-        <ion-icon name="musical-note-outline" class="icon"></ion-icon>
-        <div class="text-button">Choose generation items</div>
-      </div>
+        <div class="block">
+            <ion-icon name="musical-note-outline" class="icon"></ion-icon>
+            <div class="text-button">Choose generation items</div>
+        </div>
 
-      <div class="block">
-        <ion-icon name="musical-note-outline" class="icon red"></ion-icon>
-        <div class="text-button">Get your playlist</div>
-      </div>
+        <div class="block">
+            <ion-icon name="musical-note-outline" class="icon red"></ion-icon>
+            <div class="text-button">Get your playlist</div>
+        </div>
     </div>
-  </body>
+</body>
 </html>

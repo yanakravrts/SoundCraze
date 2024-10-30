@@ -313,7 +313,4 @@ def display_playlist(request, playlist_id):
         return redirect('index')
     embed_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
 
-    return render(request, 'playlist.html', {'embed_url': embed_url})
-
-
-
+    return render(request, 'playlist1.html', {'embed_url': embed_url})
