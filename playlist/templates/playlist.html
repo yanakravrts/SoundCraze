@@ -1,31 +1,158 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Плейлисти Spotify</title>
-</head>
-<body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-<h1>Плейлисти Spotify</h1>
+      body {
+        background-color: #ff4c47f2;
+        font-family: Arial, Helvetica, sans-serif;
+      }
 
-<div>
-    <p>Кількість плейлистів: {{ playlist_covers|length }}</p>
+      .header {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 120px;
+      }
 
-    {% if playlist_covers %}
-        {% for playlist in playlist_covers %}
-            <div>
-                <a href="{{ playlist.url }}" target="_blank">
-                    <img src="{{ playlist.cover_url }}" alt="Обкладинка плейлиста" width="200">
-                    <p>Відкрити плейлист</p>
-                </a>
-            </div>
-            <hr>
-        {% endfor %}
-    {% else %}
+      .new-button {
+        font-size: 20px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+        padding: 8px 16px;
+        border-radius: 15px;
+        margin: 12px 8px;
+        transition: background-color 0.6s;
+        display: inline-block;
+      }
+
+      .about {
+        background-color: hsla(90, 1%, 43%, 0.5);
+        border-radius: 15px;
+        box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.5);
+      }
+
+      .new-button:hover {
+        background-color: #555;
+      }
+
+      .back {
+        background-color: #6e6f6d;
+        min-height: 75.5vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0;
+        position: relative; /* Додаємо відносне позиціонування до .back */
+      }
+
+      .container {
+        background-color: hsla(90, 1%, 43%, 0.5);
+        border-radius: 8px;
+        padding: 40px;
+        width: 70%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        box-shadow: 5px 8px 5px rgba(0, 0, 0, 0.5);
+        position: absolute;
+        top: -16%; /* Піднімаємо на 25% */
+        row-gap: 50px;
+      }
+
+      .album {
+        text-align: center;
+        color: #fff;
+      }
+
+      .album img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.7);
+      }
+
+      .album p {
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .image img {
+        width: 280px;
+        height: 290px;
+      }
+      .image {
+        align-self: center;
+        justify-self: center;
+      }
+
+      .logo img {
+        position: absolute;
+        width: 500px;
+        height: 100px;
+        top: 72%;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+
+      .album a {
+        text-decoration: none; /* Прибирає підкреслення для тексту посилання */
+        font-size: 22px;
+      }
+      .album-name {
+        color: #1b1a1a; /* Задає білий колір */
+        font-size: 22px !important; /* Розмір шрифту можна змінити під ваші потреби */
+        text-transform: capitalize; /* Робить першу літеру великою */
+        text-decoration: none; /* Забирає підкреслення */
+      }
+
+      .album-name:hover {
+        color: #cccccc; /* Колір при наведенні, можна налаштувати */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <a href="{% url 'playlist' %}" class="new-button about">Our playlists</a>
+      <a href="{% url 'about' %}" class="new-button">About us</a>
+    </div>
+
+    <div class="back">
+      <div class="container">
+        {% if playlist_covers %} {% for playlist in playlist_covers %}
+        <div class="album">
+          <a href="{{ playlist.url }}" target="_blank">
+            <img src="{{ playlist.cover_url }}" alt="Обкладинка плейлиста" />
+            {% if forloop.counter == 1 %}
+            <p class="album-name">Olena</p>
+            {% elif forloop.counter == 2 %}
+            <p class="album-name">Yana</p>
+            {% elif forloop.counter == 3 %}
+            <p class="album-name">Volodia</p>
+            {% elif forloop.counter == 4 %}
+            <p class="album-name">Anton</p>
+            {% else %}
+            <p>Невідомий</p>
+            {% endif %}
+          </a>
+        </div>
+        {% endfor %} {% else %}
         <p>Немає доступних плейлистів.</p>
-    {% endif %}
-</div>
-
-</body>
+        {% endif %}
+      </div>
+      <div class="logo">
+        <img src="{% static 'img/SoundCraze.png' %}" alt="Logo" />
+      </div>
+    </div>
+  </body>
 </html>

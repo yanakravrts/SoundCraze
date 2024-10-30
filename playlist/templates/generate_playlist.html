@@ -115,6 +115,8 @@
                 -webkit-appearance: none; /* усунення стилів браузера */
                 -moz-appearance: none;
                 appearance: none;
+                border: none;
+                outline: none;
             }
 
             ::placeholder{
@@ -122,6 +124,7 @@
             }
 
             .smaller-container{
+                position: relative;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -145,7 +148,60 @@
                 width: 200px;
                 width: 30%;
             }
+
+            .generate{
+                position: absolute;
+                padding: 20px 24px;
+                border-radius: 16px;
+                top:45%;
+                left:90%;
+            }
+            .playlist,
+            .about {
+                font-size: 20px;
+                margin: 12px 16px;
+                font-weight: bold;
+            }
+
+            .new-button {
+                text-decoration: none;
+                color: #000;
+                font-weight: bold;
+                padding: 8px 16px;
+                border-radius: 15px;
+                transition: background-color 0.6s;
+            }
+
+            .new-button:hover {
+                background-color: #555;
+            }
         </style>
+        <!-- <script>
+        function generatePlaylist() {
+            // Показуємо сторінку завантаження
+            window.location.href = "/loading"; // Заміна на вашу URL-адресу сторінки завантаження
+
+            // Тут відправляємо запит на генерацію плейлиста
+            fetch('/generate_playlist', {
+                method: 'POST',
+                body: JSON.stringify({
+                    // Ваші параметри для генерації плейлиста
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Після завершення завантаження, переходимо до сторінки з плейлистом
+                window.location.href = "/playlist"; // Заміна на вашу URL-адресу сторінки з плейлистом
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        </script> -->
+
     </head>
     <body>
         <form method="POST" id="playlist-form">
@@ -153,16 +209,12 @@
 
         <div class="header">
             <div class="playlist">
-                <a href="{% url 'playlist' %}" class="new-button">
-                    <button type="button" class="start">Our playlist</button>
-                </a>
+              <a href="{% url 'playlist' %}" class="new-button">Our playlist</a>
             </div>
             <div class="playlist">
-                <a href="{% url 'about' %}" class="new-button">
-                    <button type="button" class="start">About us</button>
-                </a>
+              <a href="{% url 'about' %}" class="new-button about">About us</a>
             </div>
-        </div>
+          </div>
         <div class="container">
             <div class="smaller-container">
                 <div class="image">
@@ -187,13 +239,6 @@
                 />
                 <ul id="genre-list"></ul>
 
-                    <select class="heze" name="mood" id="mood-select" required>
-                        <option value="">Mood</option>
-                        <option value="happy">Happy</option>
-                        <option value="sad">Sad</option>
-                        <option value="chill">Chill</option>
-                        <option value="other">Other</option>
-                    </select>
                 <input
                     class="option"
                     type="number"
@@ -203,9 +248,19 @@
                     placeholder="Number of songs"
                     required
                 />
+                    <select class="heze" name="mood" id="mood-select" required>
+                        <option value="">Mood</option>
+                        <option value="happy">Happy</option>
+                        <option value="sad">Sad</option>
+                        <option value="chill">Chill</option>
+                        <option value="other">Other</option>
+                    </select>
 
-                <button type="submit">Згенерувати плейлист</button>
+                
                 </form>
+            </div>
+            <div class="button">
+                <button class="generate" type="submit" onclick="generatePlaylist()">Generate</button>
             </div>
             <div class="grid--3--cols container2">
                 <div class="block">
