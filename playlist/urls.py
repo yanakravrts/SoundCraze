@@ -6,6 +6,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('', views.index, name='index'),
     path('playlist/', views.display_playlists, name='playlist'),
+    path('playlist/<str:playlist_id>/', views.display_playlist, name='display_playlist'),
     path('callback/', views.spotify_callback, name='spotify_callback'),
     path('author-autocomplete/', views.spotify_author_autocomplete, name='author_autocomplete'),
     path('genre-autocomplete/', views.spotify_genre_autocomplete, name='genre_autocomplete'),
